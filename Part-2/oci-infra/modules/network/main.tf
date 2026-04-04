@@ -32,3 +32,9 @@ resource "oci_core_route_table" "test_route_table" {
         destination = "0.0.0.0/0"
     }
 }
+resource "oci_core_vcn" "manual_vcn" {
+    compartment_id = var.tenancy_ocid
+    cidr_blocks = ["10.0.0.0/16"]
+    display_name   = "manual-vcn"
+    dns_label      = "manualvcn"
+}
