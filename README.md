@@ -1,6 +1,6 @@
 # oci-k8s-terraform
 
-Terraform ile Oracle Cloud Infrastructure (OCI) üzerinde Kubernetes cluster kurulumu ve CI/CD pipeline entegrasyonu.
+Kubernetes cluster deployment on Oracle Cloud Infrastructure (OCI) using Terraform, with a fully automated CI/CD pipeline via GitHub Actions.
 
 ![Terraform](https://img.shields.io/badge/Terraform-v1.14-623CE4?logo=terraform)
 ![OCI](https://img.shields.io/badge/Oracle_Cloud-Infrastructure-F80000?logo=oracle)
@@ -8,19 +8,19 @@ Terraform ile Oracle Cloud Infrastructure (OCI) üzerinde Kubernetes cluster kur
 
 ---
 
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
 oci-k8s-terraform/
-├── Part-1/                    # Terraform temelleri
+├── Part-1/                    # Terraform fundamentals
 │   ├── tf-playground-1/       # init, plan, apply
 │   ├── tf-playground-2/       # variables, tfvars
 │   └── tf-playground-3/       # outputs, state
 └── Part-2/
-    └── oci-infra/             # OCI altyapısı
+    └── oci-infra/             # OCI infrastructure
         ├── modules/
-│       ├── network/       # VCN, Subnet, IGW, Route Table
-│       └── oke/           # OKE Cluster, Node Pool
+        │   ├── network/       # VCN, Subnet, IGW, Route Table
+        │   └── oke/           # OKE Cluster, Node Pool
         ├── main.tf
         ├── variables.tf
         ├── outputs.tf
@@ -29,7 +29,7 @@ oci-k8s-terraform/
 
 ---
 
-## 🏗️ Mimari
+## 🏗️ Architecture
 
 ```
 GitHub Actions (CI/CD)
@@ -50,31 +50,31 @@ Oracle Cloud Infrastructure
 
 ---
 
-## 🛠️ Kullanılan Teknolojiler
+## 🛠️ Technologies Used
 
 - **Terraform** v1.14 — Infrastructure as Code
 - **Oracle Cloud Infrastructure (OCI)** — Cloud provider
 - **OKE** — Oracle Kubernetes Engine
 - **GitHub Actions** — CI/CD pipeline
-- **OCI Object Storage** — Remote Terraform state
+- **OCI Object Storage** — Remote Terraform state backend
 
 ---
 
-## 📚 Part-1: Terraform Temelleri
+## 📚 Part-1: Terraform Fundamentals
 
-Terraform'un temel kavramlarını hands-on öğrenmek için yapılan çalışmalar:
+Hands-on exploration of core Terraform concepts:
 
 - `terraform init`, `plan`, `apply`, `destroy`
-- `resource`, `variable`, `output` blokları
-- `terraform.tfstate` ve state yönetimi
-- `terraform.tfvars` ile değer geçme
-- Plan sembolleri: `+` `-` `~` `-/+`
+- `resource`, `variable`, `output` blocks
+- `terraform.tfstate` and state management
+- Passing values via `terraform.tfvars`
+- Plan symbols: `+` `-` `~` `-/+`
 
 ---
 
-## ☁️ Part-2: OCI Altyapısı
+## ☁️ Part-2: OCI Infrastructure
 
-### Kurulan Kaynaklar
+### Provisioned Resources
 
 **Network (modules/network)**
 
@@ -86,79 +86,79 @@ Terraform'un temel kavramlarını hands-on öğrenmek için yapılan çalışmal
 **Compute (modules/oke)**
 
 - OKE Cluster (Kubernetes v1.32.1)
-- Node Pool konfigürasyonu (VM.Standard.A1.Flex — OCI kapasite bekleniyor)
+- Node Pool configuration (VM.Standard.A1.Flex — awaiting OCI capacity)
 
-**State Yönetimi**
+**State Management**
 
-- OCI Object Storage bucket ile remote state
-- State locking desteği
+- Remote state stored in OCI Object Storage bucket
+- State locking supported out of the box
 
-### Öğrenilen Kavramlar
+### Key Concepts Covered
 
-- OCI CLI kurulum ve API Key authentication (Identity Domain)
-- Terraform modules — tekrar kullanılabilir yapı
-- `terraform state mv` — state taşıma
-- `terraform import` — mevcut kaynakları Terraform'a alma
-- Terraform Workspaces — izole ortamlar
-- Remote backend — `oci` backend ile OCI Object Storage
+- OCI CLI setup and API Key authentication (Identity Domain)
+- Terraform modules — reusable infrastructure components
+- `terraform state mv` — moving resources between states
+- `terraform import` — bringing existing resources under Terraform management
+- Terraform Workspaces — isolated environments
+- Remote backend — `oci` backend with OCI Object Storage
 
 ---
 
 ## 🚀 CI/CD Pipeline
 
-`main` branch'e her push'ta otomatik olarak çalışır.
+Automatically triggered on every push to the `main` branch.
 
 ```
 Push to main
     │
     ├── terraform init
-    ├── terraform plan    ← Her push/PR'da
-    └── terraform apply   ← Sadece main'e push'ta
+    ├── terraform plan    ← Every push / PR
+    └── terraform apply   ← Only on push to main
 ```
 
-### Pipeline Kurulumu
+### Pipeline Setup
 
-Gerekli GitHub Secrets:
+Required GitHub Secrets:
 
-| Secret             | Açıklama                    |
-| ------------------ | --------------------------- |
-| `OCI_TENANCY_OCID` | OCI Tenancy OCID            |
-| `OCI_USER_OCID`    | OCI User OCID               |
-| `OCI_FINGERPRINT`  | API Key fingerprint         |
-| `OCI_REGION`       | OCI Region (eu-frankfurt-1) |
-| `OCI_PRIVATE_KEY`  | Private key içeriği (.pem)  |
+| Secret             | Description                      |
+| ------------------ | -------------------------------- |
+| `OCI_TENANCY_OCID` | OCI Tenancy OCID                 |
+| `OCI_USER_OCID`    | OCI User OCID                    |
+| `OCI_FINGERPRINT`  | API Key fingerprint              |
+| `OCI_REGION`       | OCI Region (e.g. eu-frankfurt-1) |
+| `OCI_PRIVATE_KEY`  | Private key content (.pem)       |
 
 ---
 
-## ⚙️ Kullanım
+## ⚙️ Usage
 
-### Gereksinimler
+### Prerequisites
 
 - Terraform >= 1.14
 - OCI CLI
-- OCI hesabı ve API Key
+- An OCI account with API Key configured
 
-### Başlangıç
+### Getting Started
 
 ```bash
-# 1. Repo'yu klonla
+# 1. Clone the repository
 git clone https://github.com/Syenta-Elf/oci-k8s-terraform.git
 cd oci-k8s-terraform/Part-2/oci-infra
 
-# 2. OCI CLI'ı konfigüre et
+# 2. Configure OCI CLI
 oci setup config
 
-# 3. terraform.tfvars oluştur
+# 3. Create your tfvars file
 cp terraform.tfvars.example terraform.tfvars
-# Değerleri doldur
+# Fill in your values
 
-# 4. Başlat
+# 4. Initialize and apply
 terraform init
 terraform plan
 terraform apply
 ```
 
-### terraform.tfvars Örneği
+### terraform.tfvars Example
 
 ```hcl
 region           = "eu-frankfurt-1"
@@ -172,8 +172,8 @@ bucket_namespace = "your-namespace"
 
 ---
 
-## 📝 Notlar
+## 📝 Notes
 
-- Free Tier A1 instance kapasitesi Frankfurt'ta yoğun dönemlerde dolabilir. Node pool oluşturulamazsa kapasite açılana kadar beklemek gerekir.
-- `terraform.tfvars` dosyası `.gitignore`'a eklidir — asla commit etme.
-- Remote state OCI Object Storage'da saklanır, state locking desteklenir.
+- Free Tier A1 instance capacity in Frankfurt may be unavailable during peak times. If node pool creation fails, wait for capacity to become available and re-run `terraform apply`.
+- `terraform.tfvars` is listed in `.gitignore` — never commit it.
+- Remote state is stored in OCI Object Storage with state locking enabled.
