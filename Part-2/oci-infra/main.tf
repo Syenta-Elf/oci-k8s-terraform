@@ -17,6 +17,7 @@ module "network" {
         availability_domain = "jZEu:EU-FRANKFURT-1-AD-3"
       }
     }
+    environment = "prod"
 }
 
 resource "oci_objectstorage_bucket" "test_bucket" {

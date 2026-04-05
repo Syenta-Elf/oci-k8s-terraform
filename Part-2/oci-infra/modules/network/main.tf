@@ -1,8 +1,9 @@
 locals {
   common_tags = {
     project     = "oci-k8s-terraform"
-    environment = "dev"
+    environment = var.environment
   }
+  is_prod = var.environment == "prod" ? true : false
 }
 
 
@@ -15,6 +16,7 @@ resource "oci_core_vcn" "test_vcn" {
     lifecycle {
         prevent_destroy = true
     }
+    
 }
 
 

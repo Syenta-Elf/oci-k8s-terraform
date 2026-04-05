@@ -20,3 +20,8 @@ variable "bucket_name" {
 variable "bucket_namespace" {
   type = string
 }
+
+variable "environment" {
+  type = string
+  default = "dev"
+}

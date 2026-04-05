@@ -17,3 +17,7 @@ variable "subnets" {
     availability_domain = optional(string)
   }))
 }
+
+variable "environment" {
+  type = string
+}
