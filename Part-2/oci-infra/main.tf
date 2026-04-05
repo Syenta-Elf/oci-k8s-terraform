@@ -29,3 +29,5 @@ module "cluster" {
   node_pool_image_id = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa5ahoi7btznapz7zaolvehrvqxjtjpdrenqyl3pe5qt7i2yqver6a"
   availability_domain = "jZEu:EU-FRANKFURT-1-AD-3"
 }
+
+
